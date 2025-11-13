@@ -1,18 +1,18 @@
 /* 
-Simulamos uma situação que nos permita determinar qual o tempo médio que um
-cliente aguarda numa fila de uma agência bancária para realizar uma transação no
-caixa eletrônico.
-Banco possui 3 caixas eletrônicos e uma fila única para acessar esses três caixas.
+Simulamos uma situaÃ§Ã£o que nos permita determinar qual o tempo mÃ©dio que um
+cliente aguarda numa fila de uma agÃªncia bancÃ¡ria para realizar uma transaÃ§Ã£o no
+caixa eletrÃ´nico.
+Banco possui 3 caixas eletrÃ´nicos e uma fila Ãºnica para acessar esses trÃªs caixas.
 */
 #include<stdio.h>
 #include<stdlib.h>
-#include<time.h> //recursos para gerar um número aleatório
+#include<time.h> //recursos para gerar um nÃºmero aleatÃ³rio
 #include "filaDinamica2.h" //incluir o recurso da fila implementada
-#define fim 21600  // 6 horas de expediente no banco
+#define fim 21600  // 6 horas de expediente no banco = 6x60x60 = 21600s 
 
-/* Na simulação que vamos realizar, há dois eventos importantes:
- 1) Um cliente chega à agência e entra na fila.
- 2) Um guichê é liberado, alguém sai da fila e o utiliza-lo. */
+/* Na simulaÃ§Ã£o que vamos realizar, hÃ¡ dois eventos importantes:
+ 1) Um cliente chega Ã  agÃªncia e entra na fila.
+ 2) Um guichÃª Ã© liberado, alguÃ©m sai da fila e o utiliza-lo. */
 
 int clienteChegou(void);
 int transacao(void);
@@ -21,28 +21,28 @@ int main() // programa principal
 {  int guiches[3], crono, n_cliente, i;
    float t_espera;   
    
-   srand(time(NULL)); //Semente para gerar um número aleatório 
+   srand(time(NULL)); //Semente para gerar um nÃºmero aleatÃ³rio 
    crono = 0; n_cliente = 0; t_espera = 0.0;   
    
-   for(i=0; i<3; i++) //inicializar os caixas eletrônicas
+   for(i=0; i<3; i++) //inicializar os caixas eletrÃ´nicas
       guiches[i] = 0;
    
-   // Enquanto não terminar o expediente ou tem alguém na fila
+   // Enquanto nÃ£o terminar o expediente ou tem alguÃ©m na fila
    while ((crono<fim)||(!FilaVazia()))
    {   if ((clienteChegou()) && (crono<fim)) // se um cliente chegou, entra na fila
            insereNoFila(crono);
        for(i=0; i<3; i++)
-       // Se há guichê livre e a fila não está vazia, clientes saem da fila e vão serem atendidos
+       // Se hÃ¡ guichÃª livre e a fila nÃ£o estÃ¡ vazia, clientes saem da fila e vÃ£o serem atendidos
 	      if ((guiches[i]==0)&&(!FilaVazia()))
           {   t_espera = t_espera + (crono - RemoveNoFila())/60 ;
-              guiches[i] = transacao(); //realizar a operação de transação
+              guiches[i] = transacao(); //realizar a operaÃ§Ã£o de transaÃ§Ã£o
               n_cliente++; }
        
-       for(i=0;i<3;i++) //decrementar o tempo de uso de cada guichê ocupado
+       for(i=0;i<3;i++) //decrementar o tempo de uso de cada guichÃª ocupado
           if (guiches[i]>0)
               guiches[i]--; //decrementar o tempo
               
-       crono++; // incrementar o cronômetro
+       crono++; // incrementar o cronÃ´metro
     }
     printf("Total de clientes atendidos ..%d\n",n_cliente);
     printf("tempo media de espera na fila : %.2f mim.\n",(t_espera/n_cliente));
@@ -51,24 +51,24 @@ int main() // programa principal
     
     return 0;
 }
-//subprograma como função : simular a chagada de um cliente
+//subprograma como funÃ§Ã£o : simular a chagada de um cliente
 int clienteChegou(void)
 {  int num;
-   num = rand()%30; //gerar um número aleatório entre 0 a 29
-   if (num == 0) // probabilidade de chagar um cliente é 1/30
+   num = rand()%30; //gerar um nÃºmero aleatÃ³rio entre 0 a 29
+   if (num == 0) // probabilidade de chagar um cliente Ã© 1/30
      return 1;
    else 
      return 0;
 }
-//subprograma como função : simular a operação de transação
-// 3 operações: Saque; depósito; Pagamento;
+//subprograma como funÃ§Ã£o : simular a operaÃ§Ã£o de transaÃ§Ã£o
+// 3 operaÃ§Ãµes: Saque; depÃ³sito; Pagamento;
 int transacao(void)
 {  int num, trans;
-   num = rand()%3; //gerar um número aleatório entre 0 a 2
+   num = rand()%3; //gerar um nÃºmero aleatÃ³rio entre 0 a 2
    if (num == 0)
       trans = 60; //efetuar um saque 60s
    else if (num == 1)
-           trans = 90; //efetuar um depósito 90s
+           trans = 90; //efetuar um depÃ³sito 90s
         else if (num == 2)
                 trans = 120; //efetuar um pagamento 120s
    return trans;
@@ -79,3 +79,4 @@ int transacao(void)
 
             
    
+
